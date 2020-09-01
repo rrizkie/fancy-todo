@@ -15,14 +15,52 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          args:true,
+          msg:`please insert title`
+        }
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          args:true,
+          msg:`please insert description`
+        }
+      }
+    },
     status: DataTypes.BOOLEAN,
-    due_date: DataTypes.DATE,
+    due_date: {
+      type:DataTypes.DATE,
+      validate:{
+        customValidate(value){
+          console.log(value.toISOString().split("T")[0],'value')
+          console.log(new Date().toISOString().split("T")[0])
+          if (value.toISOString().split("T")[0] < new Date().toISOString().split("T")[0] ){
+            throw new Error (`invalid due date input`)
+          }
+          if (value.toISOString().split("T")[0] > new Date().toISOString().split("T")[0]){
+            throw new Error (`invalid due date input`)
+          }
+        }
+      }
+    },
     UserId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Todo',
   });
+
+  Todo.beforeCreate((user, option) => {
+    user.status = false
+  })
+  
+  Todo.beforeUpdate((user, option) => {
+    user.status = false
+  })
   return Todo;
 };

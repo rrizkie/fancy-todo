@@ -16,9 +16,41 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   User.init({
-    username: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    username: {
+      type: DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          args:true,
+          msg:`please insert username`
+        }
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate:{
+        isEmail:{
+          args:true,
+          msg:`wrong email format`
+        },
+        notEmpty:{
+          args:`true`,
+          msg:`please insert email`
+        }
+      }
+    },
+    password:{
+      type: DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          args:true,
+          msg:`please insert password`
+        },
+        len:{
+          args:[4],
+          msg:`password min 4 characters`
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'User',
@@ -28,14 +60,12 @@ module.exports = (sequelize, DataTypes) => {
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(user.password, salt);
     user.password = hash
-    console.log(hash)
   })
   
   User.beforeUpdate((user, option) => {
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(user.password, salt);
     user.password = hash
-    console.log(hash)
   })
 
   return User;
