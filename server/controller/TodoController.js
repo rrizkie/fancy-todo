@@ -8,7 +8,7 @@ class Controller {
             return res.status(200).json(data)
         })
         .catch(err=>{
-            return next(err)
+            next(err)
         })
     }
     static add(req,res,next){
@@ -27,7 +27,7 @@ class Controller {
         })
         .catch(err=>{
             console.log(err)
-            return next(err)
+            next(err)
         })
     }
     static find(req,res,next){
@@ -38,7 +38,7 @@ class Controller {
         })
         .catch(err=>{
             // return res.status(404).json({message:`cant find`})
-            return next(err)
+            next(err)
         })
     }
     static edit(req,res,next){
@@ -55,7 +55,7 @@ class Controller {
         })
         .catch(err=>{
             // return res.status(304).json({message:`not updated`})
-            return next(err)
+            next(err)
         })
     }
     static delete(req,res){

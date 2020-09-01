@@ -1,5 +1,5 @@
 const error = (err,req,res,next)=>{
-    console.log(err)
+    // console.log(err.name,"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
     let status = 500
     let errors = []
 
@@ -12,7 +12,8 @@ const error = (err,req,res,next)=>{
             break;
         case "JsonWebTokenError":
             errors.push(`doesnt recognize user`)
-            status = 401;
+            console.log(errors,'ini errors')
+            status = 400;
             break;
         case "SequelizeUniqueConstraintError":
             errors.push(`email already used`)
@@ -24,7 +25,7 @@ const error = (err,req,res,next)=>{
             break
 
     }
-    res.status(status).json({errors})
+    return res.status(status).json({errors})
 
 }
 

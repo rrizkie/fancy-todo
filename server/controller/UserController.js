@@ -20,8 +20,7 @@ class Controller{
             return res.status(201).json(hidePass)
         })
         .catch(err=>{
-            console.log(err)
-            return next(err)
+            next(err)
         })
     }
     static login(req,res,next){
@@ -43,7 +42,7 @@ class Controller{
             }
         })
         .catch(err=>{
-            return next(err)
+            next(err)
         })
     }
 }

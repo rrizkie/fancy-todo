@@ -1,23 +1,22 @@
 const {verify} = require('../helper/jwt')
 const {User, Todo} = require('../models')
-const user = require('../models/user')
 
 const authentication = (req,res,next) =>{
     const {access_token} = req.headers
-
-    try {
         const user = verify(access_token)
         req.user = user
+        console.log(user,"ini nihh")
         User.findOne({where:{email:user.email}})
         .then(data=>{
-            next()
+            if (data){
+                next()
+            }else{
+                throw ({message:`user not authenticate`,status:401})
+            }
         })
         .catch(err=>{
-            throw err
+            next(err)
         })
-    }catch(err){
-        next(err)
-    }
 }
 
 const authorization = (req,res,next)=>{
@@ -35,7 +34,7 @@ const authorization = (req,res,next)=>{
         }
     })
     .catch(err=>{
-        return next(err)
+        next(err)
     })
     
 }
