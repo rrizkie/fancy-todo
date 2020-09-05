@@ -19,31 +19,6 @@
               <div id="nav-logo" class="container" >
             <a class="navbar-brand" href="#"><img src="LogoMakr_1a9Oox.png" alt=""></a>
               </div>
-            <!-- <img src="LogoMakr_4nOtV9.png" alt=""> -->
-            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-          
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </div>
-                </li> -->
-              <!-- </ul> -->
               <div id="logout-nav">
               <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" width="50px" alt="" class="rounded-circle">
               <p>username</p>
@@ -64,7 +39,7 @@
             
             <div class="card">
                 <div class="card-header">
-                  Todo List
+                 <h4 style="font-weight: bold;">To Do</h4>
                 </div>
                 <div class="card-header">
                   <a href="#" class="btn btn-primary" id="addtodo">Add</a>
@@ -78,15 +53,10 @@
               <div class="col">
                 <div class="card">
                     <div class="card-header">
-                      Done
+                      <h4 style="font-weight: bold;">weathers</h4>
                     </div>
-                    <div class="card-body">
-                      <h5 class="card-title">tidur</h5>
-                      <p class="card-text">desc</p>
-                      <p class="card-text">due date</p>
-                      <a href="#" class="btn btn-primary">Edit</a>
-                      <a href="#" class="btn btn-primary">Delete</a>
-                      <a href="#" class="btn btn-primary">Done</a>
+                    <div class="card-body" id="api">
+                      
                     </div>
                   </div>
               </div>
@@ -117,10 +87,13 @@
             </div>
             <button id="submit-login" type="submit" class="btn btn-primary" style="border-radius: 50px;">Submit</button>
           </form>
-          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          <p>Or sign in with:</p>
+          <button class="g-signin2"; data-onsuccess="onSignIn" style="border-radius: 10px;"></button>
+          <!-- <div class="g-signin2"; data-onsuccess="onSignIn"></div> -->
+          <br>
           <div id="loginregister">
-            <a href="#">register</a>
-
+            <p>dont have an account?</p>
+            <a href="#" id="login-register">register</a>
           </div>
           <br>
         </div>
@@ -185,15 +158,23 @@
 
 
   <!--add todo-->
-  <div class="container text-center border 5" style="border-radius: 10px;border-width: thick;" id="edit-form-todo">
+  <div class="container text-center border 5" style="border-radius: 10px;border-width: thick;">
     <div id="tampung-edit">
 
     </div>
-</div>
+    
+  </div>
+  <div class="container text-center border 5" style="border-radius: 10px;border-width: thick;">
+    <div id="tampung">
+
+    </div>
+    
+  </div>
+
 
 
           <br>
-          <footer class="footer footer-expand-lg footer-light bg-light text-center">
+          <footer class="footer footer-expand-lg footer-light bg-light text-center position-absolut">
               <h5>created by:Hactiv8 Tropical-fox46</h5>
           </footer>
 

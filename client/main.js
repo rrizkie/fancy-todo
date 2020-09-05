@@ -25,6 +25,10 @@ const list = (event)=>{
     $('#login-form').hide()
     $('#register-form').hide()
     $('#addtodo-form').hide()
+    // $('#tampung').hide()
+    // $('#tampung-edit').hide()
+
+
 
     $.ajax({
         method:'GET',
@@ -44,11 +48,37 @@ const list = (event)=>{
                         <p class="card-text">${i.due_date.split("T")[0]}</p>
                         <a href="#" class="btn btn-primary" data-id="${i.id}" onClick="edit(event)">Edit</a>
                         <a href="#" class="btn btn-primary" data-id="${i.id}" onClick="deleteTodo(event)">Delete</a>
-                        <a href="#" class="btn btn-primary" data-id="${i.id}" onClick="status(event)">Done</a>
+                        <a href="#" class="btn btn-primary" data-id="${i.id}" onClick="updateStatus(event)">Done</a>
                       </div>
             `)
             
         })
+    })
+    .fail(err=>{
+        console.log(err)
+    })
+
+    let rainy = "https://weatherstack.com/site_images/weather_icon_cloud_slight_rain.svg"
+
+    $.ajax({
+        method:'GET',
+        url:`http://localhost:3000/weathers`,
+
+    })
+    .done(response=>{
+        console.log(response.location)
+        $('#api').empty()
+        $('#api').append(
+            `
+            <h5 class="card-title">${response.location.name}</h5>
+                      <img src="https://weatherstack.com/site_images/weather_icon_cloud_slight_rain.svg" alt="" srcset="">
+                      <p class="card-text">temperature : ${response.current.temperature}</p>
+                      <p class="card-text">${response.location.timezone_id}</p>
+            `
+        )
+    })
+    .fail(err=>{
+        console.log(err)
     })
 
 }
@@ -68,26 +98,18 @@ const updateStatus = (event)=>{
         console.log(response)
         localStorage.setItem('id',response.id)
         let date = response.due_date.split("T")[0]
-        $('#tampung-edit').append(
+        $('#tampung').append(
             `
             <div>
-      <h4>Edit Todo</h4>
+      <h4>Done Confirmation</h4>
     </div>
     <br>
-  <form id="edit-todo">
+  <form id="done-edit">
     <div class="form-group">
-      <label for="exampleInputEmail1" style="font-weight: bold;">Title</label>
-      <input type="text" class="form-control" value="${response.title}" id="title-edit" aria-describedby="emailHelp" style="transform: rotateY(-50%);color: #777;padding: 2px 15px 2px 35px;border: none;border-radius: 50px;text-align: center;">
+      <label for="exampleInputEmail1" style="font-weight: bold;"><h3>${response.title}<h4></label>
     </div>
-    <div class="form-group">
-      <label for="exampleInputEmail1" style="font-weight: bold;">Description</label>
-      <input type="text" class="form-control" value="${response.description}" id="desc-edit" aria-describedby="emailHelp" style="transform: rotateY(-50%);color: #777;padding: 2px 15px 2px 35px;border: none;border-radius: 50px;text-align: center;">
-    </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1" style="font-weight: bold;">Due Date</label>
-      <input type="date" class="form-control" value="${date}" id="date-edit" style="transform: rotateY(-50%);color: #777;padding: 2px 15px 2px 35px;border: none;border-radius: 50px;text-align: center;">
-    </div>
-    <button id="edit-button" onClick="status(event)" type="submit" class="btn btn-primary" style="border-radius: 50px;">Edit</button>
+    
+    <button id="edit-button" onClick="status(event)" type="submit" class="btn btn-primary" style="border-radius: 50px;">Done</button>
   </form>
   <br>
             `
@@ -100,6 +122,7 @@ const updateStatus = (event)=>{
 
 const status = (event)=>{
     event.preventDefault()
+    console.log($('#title-edit').val())
     $.ajax({
         method:'PUT',
         url:`http://localhost:3000/todos/${localStorage.getItem('id')}`,
@@ -116,9 +139,11 @@ const status = (event)=>{
     .done(response=>{
         console.log(response,'iini status')
         event.preventDefault()
+        $('#tampung').empty()
         list()
     })
     .fail(err=>{
+        console.log('error put')
         console.log(err)
 })
 }
@@ -188,6 +213,7 @@ const update = (event)=>{
         .done(response=>{
             console.log(response,'iini put')
             event.preventDefault()
+            $('#tampung-edit').empty()
             list()
         })
         .fail(err=>{
@@ -277,8 +303,6 @@ $(document).ready(()=>{
     }else{
         beforeLogin()
     }
-
-
 
     // submit login form
     $('#form-login').submit(()=>{
@@ -373,13 +397,19 @@ $(document).ready(()=>{
     })
 
     
-
+    // logout
     $('#logout-but').click(()=>{
         event.preventDefault()
         localStorage.removeItem('access_token')
+        localStorage.removeItem('id')
         beforeLogin()
         signOut()
 
+    })
+
+    $("#login-register").click(()=>{
+        event.preventDefault()
+        register()
     })
 
 })
