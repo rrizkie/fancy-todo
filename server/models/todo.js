@@ -59,8 +59,8 @@ module.exports = (sequelize, DataTypes) => {
     user.status = false
   })
   
-  Todo.beforeUpdate((user, option) => {
-    user.status = false
-  })
+  // Todo.beforeUpdate((user, option) => {
+  //   user.status = false
+  // })
   return Todo;
 };

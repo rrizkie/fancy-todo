@@ -1,9 +1,9 @@
-const {Todo} = require('../models')
+const {Todo , User} = require('../models')
+const { param } = require('../routes')
 
 class Controller {
     static show(req,res,next){
-
-        Todo.findAll()
+        Todo.findAll({where:{UserId:req.user.id,status:false}})
         .then(data=>{
             return res.status(200).json(data)
         })
@@ -48,7 +48,8 @@ class Controller {
             status:req.body.status,
             due_date:req.body.due_date
         }
-        let options = {where:{id:req.params.id}}
+        // console.log(params)
+        let options = {where:{id:req.params.id},individualHooks:true}
         Todo.update(params,options)
         .then(data=>{
             return res.status(200).json(data)

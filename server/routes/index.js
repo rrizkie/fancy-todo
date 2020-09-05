@@ -1,10 +1,13 @@
 const routes = require('express').Router()
 const Controller = require('../controller/TodoController')
 const UserController = require('../controller/UserController')
+const weatherController = require('../controller/weatherController')
 const {authentication , authorization} =require('../middleware/auth')
 
 routes.post('/register',UserController.register)
 routes.post('/login',UserController.login)
+routes.post('/google',UserController.google)
+routes.get('/weathers',weatherController.weather)
 
 routes.use(authentication)
 
