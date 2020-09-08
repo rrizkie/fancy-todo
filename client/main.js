@@ -25,6 +25,7 @@ const list = (event)=>{
     $('#login-form').hide()
     $('#register-form').hide()
     $('#addtodo-form').hide()
+    $('#logout-nav').show()
     // $('#tampung').hide()
     // $('#tampung-edit').hide()
 
@@ -192,6 +193,7 @@ const edit = (event)=>{
     })
     .fail((err)=>{
         console.log(err)
+        
     })
 
 }
@@ -218,6 +220,13 @@ const update = (event)=>{
         })
         .fail(err=>{
             console.log(err)
+            Swal.fire(
+                {
+                    icon: 'error',
+                    titleText: 'Validation error',
+                    html: err.responseJSON.errors.join('<br/>')
+                }
+            );
     })
 }
 
@@ -329,6 +338,12 @@ $(document).ready(()=>{
         })
         .fail((err)=>{
             console.log(err)
+            Swal.fire(
+                'Invalid email or password!',
+                'please check again',
+                'error'
+            )
+            $('#form-login').show()
         })
     })
 
@@ -357,6 +372,13 @@ $(document).ready(()=>{
         })
         .fail((err)=>{
             console.log(err)
+            Swal.fire(
+                {
+                    icon: 'error',
+                    titleText: 'Validation error',
+                    html: err.responseJSON.errors.join('<br/>')
+                }
+            );
         })
 
     })
@@ -393,6 +415,13 @@ $(document).ready(()=>{
         })
         .fail((err)=>{
             console.log(err)
+            Swal.fire(
+                {
+                    icon: 'error',
+                    titleText: 'Validation error',
+                    html: err.responseJSON.errors.join('<br/>')
+                }
+            );
         })
     })
 
