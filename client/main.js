@@ -57,6 +57,11 @@ const list = (event)=>{
     })
     .fail(err=>{
         console.log(err)
+        Swal.fire({
+            icon: "error",
+            titleText: "Validation error",
+            html: err.responseJSON.errors.join("<br/>"),
+          });
     })
 
     let rainy = "https://weatherstack.com/site_images/weather_icon_cloud_slight_rain.svg"
@@ -116,8 +121,13 @@ const updateStatus = (event)=>{
             `
         )
     })
-    .fail((err)=>{
+    .fail(err=>{
         console.log(err)
+        Swal.fire({
+            icon: "error",
+            titleText: "Validation error",
+            html: err.responseJSON.errors.join("<br/>"),
+          });
     })
 }
 
@@ -146,6 +156,11 @@ const status = (event)=>{
     .fail(err=>{
         console.log('error put')
         console.log(err)
+        Swal.fire({
+            icon: "error",
+            titleText: "Validation error",
+            html: err.responseJSON.errors.join("<br/>"),
+          });
 })
 }
 
@@ -191,8 +206,13 @@ const edit = (event)=>{
             `
         )
     })
-    .fail((err)=>{
+    .fail(err=>{
         console.log(err)
+        Swal.fire({
+            icon: "error",
+            titleText: "Validation error",
+            html: err.responseJSON.errors.join("<br/>"),
+          });
         
     })
 
@@ -244,8 +264,13 @@ const deleteTodo = (event)=>{
         console.log('deleted')
         list()
     })
-    .fail((err)=>{
+    .fail(err=>{
         console.log(err)
+        Swal.fire({
+            icon: "error",
+            titleText: "Validation error",
+            html: err.responseJSON.errors.join("<br/>"),
+          });
     })
 }
 
@@ -370,7 +395,7 @@ $(document).ready(()=>{
             $('#password-register').val('')
             login()
         })
-        .fail((err)=>{
+        .fail(err=>{
             console.log(err)
             Swal.fire(
                 {

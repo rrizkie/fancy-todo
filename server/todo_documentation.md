@@ -1,196 +1,341 @@
-Todo server
+# Fancy-Todo
+Fancy Todo App Server
+Fancy Todo App is an application to manage your assets. This app has :
 
-## Todo  is an application that help you to manage your activity. This app has :
-    1.RESTful endpoint CRUD operations
-    2.JSON formatted response
+&nbsp;
 
-## RESTful endpoint
+## Endpoints
+````
+- POST /register
+- POST /login
+- POST /todos
+- GET /todos
+- GET /todos/:id
+- PUT /todos/:id
+- DELETE /todos/:id
+````
 
-    1. get/todos
-    2. get/todos/:id
-    3. post/todos
-    4. put/todos/:id
-    5. delete/todos/:id
+## RESTful endpoints
+
+## POST /register
+
+> Create new user to database
+
+_Request Header_
+
+```
+not needed
+```
+
+_Request Body_
+```json
+
+{
+  "email": "<email to get insert into>",
+  "password": "<password to get insert into>",
+}
+
+```
+_Response (201 - Created)_
+```json
+
+{
+  "id": "<given_id_by__system>",
+  "email": "<posted email>",
+  "password": "<posted password>",
+  "createdAt": "2020-03-20T07:15:12.149Z",
+  "updatedAt": "2020-03-20T07:15:12.149Z",
+}
+```
+
+_Response (400 - Bad Request)_
+```json
+{
+  "message": "Please input email format!, Password minimum 4 characters!"
+}
+
+```
+
+_Response (500 - Internal Error Server)_
+```json
+{
+  "message": "Internal Server Error"
+}
+```
+
+### POST /login
+
+> Login to todos
+
+_Request Header_
+```
+not needed
+```
+
+_Request Body_
+```json
+{
+  "email": "<email to get insert into>",
+  "password": "<password to get insert into>",
+}
+```
+
+_Response (200)_
+```json
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJmYXVkemFuIiwiaWF0IjoxNTk4OTU1OTk2fQ.-bZ3Gi4AXPQMtrHfbxJ605On57u4gRXfU0ok88aIW94"
+}
+```
+
+_Response (400 - Bad Request)_
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+_Response (500 - Internal server error)_
+```json
+{
+  "message": "Internal Server Error"
+}
+```
 
 
-## get/todos (get all todos list)
+### GET /todos
+> Get all todos
 
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
 
+_Request Body_
+```
+not needed
+```
 
-    Request Body
-        not needed
-
-
-   Response (200)
-    
-    {
-        "id": 1,
-        "title": "<todo name>",
-        "description": "<todo description>",
-        "due_date": "2020-01-29",
-        "createdAt": "2020-03-20T07:15:12.149Z",
-        "updatedAt": "2020-03-20T07:15:12.149Z",
-    },
-    {
-        "id": 2,
-        "title": "<todo name>",
-        "description": "<todo description>",
-        "due_date": "2020-01-29",
-        "createdAt": "2020-03-20T07:15:12.149Z",
-        "updatedAt": "2020-03-20T07:15:12.149Z",
-    }
-
-
-    Response (400)
-    {
-    "message": "Invalid request"
-    }
-
-
-
-
-## get/todos/:id (get todos by id)
-
-    Request Header
-    {
-        "jwt_token"
-    }
-
-    Request Body
-        not needed
-
-    Response (200)
-    {
-        "id": 1,
-        "title": "<todo name>",
-        "description": "<todo description>",
-        "due_date": "2020-01-29",
-        "createdAt": "2020-03-20T07:15:12.149Z",
-        "updatedAt": "2020-03-20T07:15:12.149Z",
-    }
-    
-
-    Response (404)
-    {
-    "message": "cant find"
-    }
-
-
-## post/todos (create new todos)
-
-    Request Header
-    {
-        "jwt token"
-    }
-
-    Request body
-    {
-    "title": "<title to get insert into>",
-    "description": "<description to get insert into>",
-    "status":"<default>"
-    "due_date": "<date to get insert into>",
-    }
-
-    Response (201 - created)
-    {
-    "id": <given id by system>,
-    "title": "<posted name>",
-    "description": "<posted description>",
-    "due_date": "2020-01-29",
+_Response (200)_
+```json
+[
+  {
+    "id": 1,
+    "title": "<todos name>",
+    "description": "<todos description>",
+    "due_date": "<todos due_date>",
     "createdAt": "2020-03-20T07:15:12.149Z",
     "updatedAt": "2020-03-20T07:15:12.149Z",
-    }
+  },
+  {
+    "id": 2,
+    "title": "<todos name>",
+    "description": "<todos description>",
+    "due_date": "<todos due_date>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  },
+]
+```
 
-    Response (400- bad request)
-    {
-    "message": "error"
-    }
+_Response (401 - Not Authenticated)_
+```json
+{
+  "message": "Doesnt recognize User!"
+}
+```
 
-
-## put/todos/:id (update todos by id)
-
-    Request Header
-    {
-        "jwt token"
-    }
-
-    Request body
-    {
-    "title": "<title from todo database>",
-    "description": "<description from user database>",
-    "status":"<status from user database>"
-    "due_date": "<date from user database>",
-    }
-    
-    response(200)
-    {
-    "title": "<title from input>",
-    "description": "<description from input>",
-    "status":"<status from input>"
-    "due_date": "<date from input>",
-    }
-
-    respon(304)
-    {
-        "message": "not updated"
-    }
+_Response (500 - Internal server error)_
+```json
+{
+  "message": "Internal Server Error"
+}
+```
 
 
-## delete/todos/:id (deleting todo by id)
+### POST /todos
+> Create new todos
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "title": "<name to get insert into>",
+  "description": "<description to get insert into>",
+  "due_date": "<due_date to get insert into>"
+}
+```
+
+_Response (201 - Created)_
+```json
+{
+  "id": "<given id by system>",
+  "title": "<posted title>",
+  "description": "<posted description>",
+  "due_date": "<posted due_date>",
+  "createdAt": "2020-03-20T07:15:12.149Z",
+  "updatedAt": "2020-03-20T07:15:12.149Z",
+}
+```
+_Response (401 - Not Authenticated)_
+```json
+{
+  "message": "Doesnt recognize User!"
+}
+```
+_Response (400 - Bad Request)_
+```json
+
+{
+  "message": "Invalid date input, Input your todo title please!, Please input your todo description"
+}
+```
+
+### GET /todos/:id
+> Find detail todo by ID
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response(200)_
+```json
+[
+  {
+    "id": 1,
+    "title": "<todos name>",
+    "description": "<todos description>",
+    "due_date": "<todos due_date>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  },
+]
+```
+_Response (401 - Not Authenticated)_
+```json
+{
+  "message": "Doesnt recognize User!"
+}
+```
+_Response (404 - Not Found)_
+```json
+{
+  "message": "Not Found"
+}
+```
+
+### PUT /todos/:id
+
+> Update todo by ID
+
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```json
+{
+  "title": "<name to get insert into>",
+  "description": "<description to get insert into>",
+  "due_date": "<due_date to get insert into>"
+}
+```
+
+_Response (200)_
+```json
+{
+  "id": "<selected id>",
+  "title": "<updated title>",
+  "description": "<updated description>",
+  "due_date": "<updated due_date>",
+  "createdAt": "2020-03-20T07:15:12.149Z",
+  "updatedAt": "2020-03-20T07:15:12.149Z",
+}
+```
+
+> Error response:
+_Response (400 - Bad request)_
+```json
+{
+  "message": "Invalid date input, Input your todo title please!, Please input your todo description"
+}
+```
+
+_Response (404 - Not Found)_
+```json
+{
+  "message": "Not Found"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```json
+{
+  "message": "Internal Server Error"
+}
+```
 
 
-    Request Header
-    {
-        "jwt token"
-    }
+### DELETE /todos/:id
 
-    Request Body
-        not needed
+> Delete todo data by ID
 
-    response(200)
-    {}
+_Request Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
 
-    response(404)
-    {
-        "message":"not deleted data not found"
-    }
+_Request Body_
+```
+not needed
+```
 
+_Response(200)_
+```json
 
-## post/register (create new user)
+[
+  {
+    "id": "<selected id>",
+    "title": "<todos name>",
+    "description": "<todos description>",
+    "due_date": "<todos due_date>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  },
+]
+```
 
-    Request body
-    {
-    "username": "<username from input>",
-    "email": "<email from input>",
-    "password":"<password from input>"
-    }
+> Error response:
+_Response (404 - Not Found)_
+```json
+{
+  "message": "Not Found"
+}
+```
 
-    response(200)
-    {
-    "username": "<username from input>",
-    "email": "<email from input>",
-    "password":"<password from input>"
-    }
-
-    response(400)
-    {
-        "message":"something error"
-    }
-
-## post/login (login into user)
-
-    Request body
-    {
-    "email": "<email from input>",
-    "password":"<password from input>"
-    }
-
-    response(200)
-    {
-        "jwt token"
-    }
-
-    response(400)
-    {
-        "message":"email / password salah"
-    }
+_Response (500 - Internal Server Error)_
+```json
+{
+  "message": "Internal Server Error"
+}
+```
